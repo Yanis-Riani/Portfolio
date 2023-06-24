@@ -6,24 +6,24 @@ import { Analytics } from "./components/analytics";
 
 export const metadata: Metadata = {
 	title: {
-		default: "chronark.com",
-		template: "%s | chronark.com",
+		default: "Yanis Riani",
+		template: "%s | yanisriani.fr",
 	},
-	description: "Software engineer at upstash.com and founder of planetfall.io",
+	description: "Web développeur chez Aproma Conseils et développeur de jeux vidéo",
 	openGraph: {
-		title: "chronark.com",
+		title: "Yanis Riani",
 		description:
-			"Software engineer at upstash.com and founder of planetfall.io",
-		url: "https://chronark.com",
-		siteName: "chronark.com",
+			"Web développeur chez Aproma Conseils et développeur de jeux vidéo",
+		url: "https://yanisriani.fr",
+		siteName: "Yanis Riani",
 		images: [
 			{
-				url: "https://chronark.com/og.png",
+				url: "https://yanisriani.fr/og.png",
 				width: 1920,
 				height: 1080,
 			},
 		],
-		locale: "en-US",
+		locale: "fr-FR",
 		type: "website",
 	},
 	robots: {
