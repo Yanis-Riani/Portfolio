@@ -35,13 +35,13 @@ export default function Home() {
 			<div className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
 			<div className="my-16 text-center animate-fade-in">
 				<h2 className="text-sm text-zinc-500 ">
-					Bonjour, je m'appelle Yanis. Actuellement, je travaille comme développeur Web FullStack chez {" "}
+					Bonjour, je m'appelle Yanis. Actuellement, je travaille comme développeur Web FullStack pour {" "}
 					<Link
 						target="_blank"
-						href="https://aproma-conseils.fr/"
+						href="https://domap.fr/"
 						className="underline duration-500 hover:text-zinc-300"
 					>
-						Aproma Conseils
+						Domap
 					</Link>
 
 					<br />
