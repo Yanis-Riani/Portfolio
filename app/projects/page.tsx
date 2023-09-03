@@ -1,11 +1,10 @@
-import Link from "next/link";
-import React from "react";
-import { allProjects } from "contentlayer/generated";
-import { Navigation } from "../components/nav";
-import { Card } from "../components/card";
-import { Article } from "./article";
 import { Redis } from "@upstash/redis";
+import { allProjects } from "contentlayer/generated";
 import { Eye } from "lucide-react";
+import Link from "next/link";
+import { Card } from "../components/card";
+import { Navigation } from "../components/nav";
+import { Article } from "./article";
 
 const redis = Redis.fromEnv();
 
@@ -21,9 +20,9 @@ export default async function ProjectsPage() {
 	}, {} as Record<string, number>);
 
 	const featured = allProjects.find(
-		(project) => project.slug === "keploid",
+		(project) => project.slug === "Keploid",
 	)!;
-	const top2 = allProjects.find((project) => project.slug === "highstorm")!;
+	const top2 = allProjects.find((project) => project.slug === "Domap")!;
 	const top3 = allProjects.find((project) => project.slug === "envshare")!;
 	const sorted = allProjects
 		.filter((p) => p.published)
