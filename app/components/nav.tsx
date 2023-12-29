@@ -1,21 +1,21 @@
-"use client";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+"use client"
+import { ArrowLeft } from "lucide-react"
+import Link from "next/link"
+import React, { useEffect, useRef, useState } from "react"
 
 export const Navigation: React.FC = () => {
-  const ref = useRef<HTMLElement>(null);
-  const [isIntersecting, setIntersecting] = useState(true);
+  const ref = useRef<HTMLElement>(null)
+  const [isIntersecting, setIntersecting] = useState(true)
 
   useEffect(() => {
-    if (!ref.current) return;
+    if (!ref.current) return
     const observer = new IntersectionObserver(([entry]) =>
       setIntersecting(entry.isIntersecting)
-    );
+    )
 
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+    observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <header ref={ref}>
@@ -24,33 +24,34 @@ export const Navigation: React.FC = () => {
           isIntersecting
             ? "bg-zinc-900/0 border-transparent"
             : "bg-zinc-900/500  border-zinc-800 "
-        }`}
-      >
+        }`}>
         <div className="container flex flex-row-reverse items-center justify-between p-6 mx-auto">
           <div className="flex justify-between gap-8">
             <Link
               href="/projects"
-              className="duration-200 text-zinc-400 hover:text-zinc-100"
-            >
+              className="duration-200 text-zinc-400 hover:text-zinc-100">
               Projets
             </Link>
             <Link
               href="/contact"
-              className="duration-200 text-zinc-400 hover:text-zinc-100"
-            >
+              className="duration-200 text-zinc-400 hover:text-zinc-100">
               Contact
+            </Link>
+            <Link
+              href="/resume"
+              className="duration-200 text-zinc-400 hover:text-zinc-100">
+              CV
             </Link>
           </div>
 
           <Link
             href="/"
             className="duration-200 text-zinc-300 hover:text-zinc-100"
-            aria-label="Retour vers la page d'accueil"
-          >
+            aria-label="Retour vers la page d'accueil">
             <ArrowLeft className="w-6 h-6 " />
           </Link>
         </div>
       </div>
     </header>
-  );
-};
+  )
+}
