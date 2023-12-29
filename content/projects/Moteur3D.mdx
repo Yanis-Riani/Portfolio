@@ -1,627 +1,146 @@
 ---
-title: Moteur de Rendu 3D rudiamantaire
-description: Un parcours guidé à travers les fondamentaux et les techniques avancées de la synthèse d'images 3D, incluant des algorithmes de tracé, la gestion de la profondeur et l'illumination.
+title: Moteur de Rendu 3D Simplifié
+description: Présentation d'un moteur de rendu 3D basé sur des techniques fondamentales et avancées en programmation graphique, avec une approche pédagogique pour rendre les concepts accessibles.
 date: "2023-01-16"
+repository: Yanis-Riani/Fundamentals3DRender
 published: true
 ---
 
-# étape 1: Fondations des Tracés Algorithmiques
+import TechStack from '../../app/components/techStack';
 
-## Le Challenge Initial
+# Introduction
 
-Dans le monde de la synthèse d'images, le tracé de lignes et de formes géométriques est une tâche fondamentale. Cela peut sembler simple à première vue, mais il est essentiel de comprendre que chaque pixel doit être calculé. Le défi réside donc dans le choix des algorithmes qui permettront de dessiner ces formes de manière efficace et précise.
+Ce moteur de rendu 3D est un projet complexe visant à créer des scènes tridimensionnelles informatiques.\
+Il combine plusieurs techniques de la programmation graphique, depuis le dessin de lignes et formes simples jusqu'à la simulation de l'illumination et de textures sur des objets 3D.
 
-## Importance des Algorithme de Tracé
+Chaque étape est expliquée pour rendre les concepts compréhensibles même pour ceux qui n'ont pas une expertise en graphisme informatique.
 
-### Algorithme de Bresenham vs Algorithme du Point Milieu
+## Contexte du Projet
 
-L'algorithme de Bresenham et l'algorithme du point milieu sont deux méthodes largement utilisées pour le tracé de lignes en infographie. L'algorithme de Bresenham est souvent préféré pour sa simplicité, mais l'algorithme du point milieu offre un avantage en termes de précision et est souvent plus performant pour le tracé de cercles.
+Initialement conçu comme une série de travaux pratiques, ce projet est né dans le contexte académique du BUT Informatique Graphique au Puy en Velay, un cursus mettant l'accent sur la 3D.\
+L'objectif était d'acquérir une compréhension fondamentale de la programmation 3D, en abordant des concepts clés et des techniques essentielles, tout en renforçant notre maîtrise du langage Python.
 
-## Éléments de l'Architecture MVC
+## Ambition du Projet
 
-Dans notre application, l'architecture MVC (Modèle-Vue-Contrôleur) offre un cadre solide pour séparer les aspects logiques et d'affichage. Le modèle détient la logique pour dessiner les tracés, tandis que la vue s'occupe de la représentation graphique.
+L'ambition de ce projet était double: d'une part, apprendre et comprendre les bases de la 3D sur ordinateur, et d'autre part, approfondir notre connaissance en Python.\
+À travers ce projet, nous avons exploré comment les objets 3D sont construits, manipulés et rendus, en acquérant une compréhension approfondie des processus impliqués.
 
-### Points de Contrôle et Courbes
+## Outils & Technologies Utilisés
 
-La notion de "points de contrôle" et de "courbes" est cruciale ici. Un point de contrôle est un point coordonné que l'utilisateur peut placer sur le canevas. Une courbe est une série de ces points, utilisée pour créer des tracés complexes.
+<TechStack technologies={[
+  { logoSrc: '/Icons/python.svg', name: 'Python' },
+]} />
 
-## Approche Initiale: Tracé de Segments Horizontaux
+# Fondations: Tracé Algorithmique
 
-Avant de se lancer dans des tracés plus complexes, il peut être utile de commencer par des segments horizontaux. Cette étape sert de base pour comprendre les principes des tracés.
+## La Base: Dessiner Lignes et Formes
 
-### Exemple de Code
-
-Pour donner une idée de comment cela pourrait être mis en œuvre, considérez la classe `Horizontale` qui dérive de `Courbe` :
+Le projet commence par le fondamental de tout graphisme informatique: le tracé de lignes et de formes.\
+Des algorithmes spécifiques, tels que ceux de Bresenham et du point milieu, sont utilisés pour cette tâche. Ils permettent de déterminer quels pixels sur un écran doivent être allumés pour former une ligne ou une forme.\
+Imaginez dessiner un point à chaque pas jusqu'à former une ligne complète - c'est le principe de base de ces algorithmes.
 
 ```python
+# Exemple simplifié de tracé de ligne horizontale
 class Horizontale(Courbe):
-    def dessinerPoints(self, dessinerPoint):
-        if len(self.controles) == 2:
-            x1, y1 = self.controles[0]
-            x2, y2 = self.controles[1]
-            for x in range(min(x1, x2), max(x1, x2)):
-                dessinerPoint((x, y1), (0, 0, 0))
+    # ...
 ```
 
-Ce code dessine une ligne horizontale entre deux points de contrôle en parcourant toutes les valeurs `x` entre `x1` et `x2` et en plaçant un pixel à chaque point `(x, y1)`.
+## Architecture MVC pour l'Organisation
 
-## Perspectives Futures
+Le projet utilise l'architecture Modèle-Vue-Contrôleur (MVC).\
+Cette méthode divise l'application en trois parties interconnectées: le modèle gère les données et la logique, la vue s'occupe de l'affichage, et le contrôleur fait le lien entre le modèle et la vue.\
+Cette séparation facilite la gestion du projet et rend le code plus clair.
 
-Avec ces fondamentaux en place, nous avons les bases nécessaires pour ajouter d'autres types de tracés et d'algorithmes, tels que le tracé de droites obliques ou de courbes. En conséquence, ces bases nous serviront de tremplin pour aborder des défis plus complexes en synthèse d'images.
+# Évolution: Remplissage et Affichage en 3D
 
-# Étape 2: Remplissage de Triangles
+## Du Simple au Complexe: Remplissage de Triangles
 
-## Aperçu Théorique
-
-Avant de plonger dans le code, rappelons-nous brièvement pourquoi le remplissage de triangles est si important en graphique 3D. Les triangles sont la forme géométrique la plus simple qui peut représenter une surface en 3D. En utilisant des milliers, voire des millions de petits triangles, nous pouvons modéliser des surfaces extrêmement complexes.
-
-## La Classe Arete
-
-Nous commençons par créer une classe `Arete` en Python. Cette classe contient des méthodes et des attributs qui nous aident à maintenir l'état d'une arête pendant le processus de remplissage. En termes simples, cette classe nous aide à suivre les bords de notre triangle.
+Après avoir maîtrisé le tracé de lignes, le projet évolue vers le remplissage de formes, en commençant par les triangles.\
+Le triangle est la forme de base en 3D en les combinant, on peut créer n'importe quelle surface.\
+Le remplissage de triangles est donc une étape cruciale pour construire des objets 3D.
 
 ```python
-# Fichier AArete.py
-class Arete():
-    def __init__(self, yhaut1=0, x1=0, num1=0, den1=0, inc1=0):
-        self.yhaut = yhaut1
-        self.x = x1
-        self.num = num1
-        self.den = den1
-        self.inc = inc1
-
-    def maj(self):
-        self.inc += self.num
-        Q = self.inc // self.den
-        self.x += Q
-        self.inc -= Q * self.den
-```
-
-La méthode `maj()` est utilisée pour mettre à jour la position en x de l'arête à chaque itération.
-
-## TriangleRempli - La Classe Maîtresse
-
-La classe `TriangleRempli` est là où la magie opère. Elle utilise la classe `Arete` pour effectuer le remplissage du triangle. La méthode `remplir()` utilise une technique dite de balayage pour remplir le triangle.
-
-```python
-# Extrait du fichier Model.py
-import AArete  # Importation de notre classe Arete
-
+# Exemple de la classe pour le remplissage de triangles
 class TriangleRempli(Courbe):
-    # ... (Constructeur et autres méthodes)
-
-    def remplir(self, dessinerPoint):
-        # ... (Logique pour trier les points et initialiser les arêtes)
-
-        y = Pmin_y
-        while (y < Pmax_y):
-            xG = edgeG.x
-            xD = edgeD.x
-            for x in range(xG, xD + 1):
-                dessinerPoint((x, y), self.couleur)
-            edgeG.maj()
-            edgeD.maj()
-            y += 1
+    # ...
 ```
 
-La méthode `dessinerPoint()` est une fonction externe que nous passons pour effectuer le dessin réel d'un point sur notre surface de rendu.
+## Visualisation en Fil de Fer
 
-# étape 3 : Affichage en Fil de Fer avec Algorithmes du Point Milieu
-
-## Introduction
-
-Dans ce étape, nous examinerons plus en détail l'affichage en fil de fer de la scène 3D. L'algorithme du point milieu sera utilisé pour dessiner des lignes efficacement. Le code source sera principalement modifié dans le fichier `Controleur.py`.
-
-## Fonctionnement du Code
-
-### Importation des Scènes et Objets 3D
-
-La gestion des fichiers `.sce` et `.obj` est prise en charge par `Import_scene.py`. Il utilise les classes `Polyedre` et `Donnees_scene` pour stocker les informations sur la scène et les objets 3D.
-
-#### La classe `Polyedre`
-
-Cette classe est conçue pour tenir à jour diverses propriétés d'un objet 3D, telles que les sommets, les normales et les indices des triangles.
-
-#### La classe `Donnees_scene`
-
-Elle lit le fichier `.sce` et initialise les variables liées aux sources lumineuses et aux paramètres de la caméra.
-
-### Nouvelle Fonction : `nouvelleSceneFildefer`
-
-Cette fonction dans `Controleur.py` fait plusieurs choses :
-
-1. **Importation des données de la scène** : Elle charge les données à partir du fichier `.sce`.
-
-   ```python
-   self.scene = Donnees_scene("mon_fichier.sce")
-   ```
-
-2. **Sélection de fichiers objets** : L'utilisateur peut choisir des fichiers `.obj` à importer.
-
-   ```python
-   obj_files = filedialog.askopenfilenames()
-   for obj_file in obj_files:
-       self.scene.ajoute_objet(obj_file)
-   ```
-
-3. **Projection des sommets** : Les coordonnées des sommets sont projetées sur l'écran.
-
-   ```python
-   listeprojete = []
-   d = self.scene.d  # Distance de la caméra à l'écran
-   for som in poly.listesommets:
-       x, y, z = som
-       xp = round(x * d / z)
-       yp = round(y * d / z)
-       listeprojete.append((xp, yp))
-   ```
-
-4. **Tracer des lignes** : L'algorithme du point milieu est utilisé pour dessiner les lignes entre les sommets projetés.
-
-   ```python
-   for indices in poly.listeindicestriangle:
-       x1, y1 = listeprojete[indices[0]-1]
-       x2, y2 = listeprojete[indices[1]-1]
-       x3, y3 = listeprojete[indices[2]-1]
-       self.tracerLignePointMilieu(x1, y1, x2, y2)
-       self.tracerLignePointMilieu(x2, y2, x3, y3)
-       self.tracerLignePointMilieu(x3, y3, x1, y1)
-   ```
-
-## Transformation des Points
-
-Pour passer du repère de la projection au repère écran, la transformation suivante est utilisée :
-
-$$x_1 = \text{round}\left( \frac{x \cdot d}{z} \right)$$
-
-$$y_1 = \text{round}\left( \frac{y \cdot d}{z} \right)$$
-
-Ici, \(x\) et \(y\) sont les coordonnées du point dans le repère de la projection, \(d\) est la distance de la caméra à l'écran, et \(z\) est la profondeur du point.
-
-## Code Exemplaire
-
-Dans cette section, nous regroupons tous les extraits de code pour montrer comment ils fonctionnent ensemble :
+La visualisation en fil de fer est une technique où seules les arêtes des objets 3D sont dessinées, comme un maillage.\
+Elle est utile pour comprendre la structure d'un objet 3D sans être submergé par les détails.\
+Pour cela, l'algorithme du point milieu est utilisé, offrant une méthode efficace pour relier les points dans l'espace 3D.
 
 ```python
-def nouvelleSceneFildefer(self, larg, haut):
-    self.scene = Donnees_scene("mon_fichier.sce")
-
-    # Importation des objets
-    obj_files = filedialog.askopenfilenames()
-    for obj_file in obj_files:
-        self.scene.ajoute_objet(obj_file)
-
-    for poly in self.scene.listeobjets:
-        listeprojete = []
-        d = self.scene.d
-        for som in poly.listesommets:
-            x, y, z = som
-            xp = round(x * d / z)
-            yp = round(y * d / z)
-            listeprojete.append((xp, yp))
-
-        for indices in poly.listeindicestriangle:
-            x1, y1 = listeprojete[indices[0]-1]
-            x2, y2 = listeprojete[indices[1]-1]
-            x3, y3 = listeprojete[indices[2]-1]
-            self.tracerLignePointMilieu(x1, y1, x2, y2)
-            self.tracerLignePointMilieu(x2, y2, x3, y3)
-            self.tracerLignePointMilieu(x3, y3, x1, y1)
+# Extrait montrant la gestion des fichiers .sce et .obj
+class Donnees_scene():
+    # ...
 ```
 
-Cette implémentation présente une manière simple mais efficace d'utiliser l'algorithme du point milieu pour afficher des objets 3D en fil de fer. Notez que ceci est une explication simplifiée et que des améliorations et des optimisations peuvent être ajoutées selon les besoins.
+# Perfectionnement: Algorithme du Peintre et Gestion de la Profondeur
 
-# étape 4 : De Fil de Fer à l'Algorithme du Peintre
+## Passage au Réalisme: Algorithme du Peintre
 
-## Introduction
-
-Après avoir abordé la création d'une scène en mode "fil de fer" dans le étape précédent, ce étape se concentrera sur les ajustements apportés pour passer à l'algorithme du peintre. Ici, nous incorporons le concept de couleur et de remplissage des triangles pour rendre notre scène plus réaliste.
-
-## Remplacement des Objets de Type "Ligne" par des "Triangles Remplis"
-
-Dans l'approche en "fil de fer", nous avons utilisé des objets de type "ligne" pour représenter les arêtes des objets 3D. Pour appliquer l'algorithme du peintre, nous utilisons maintenant des objets de type `TriangleRempli`.
+L'algorithme du peintre est un pas vers un rendu plus réaliste.\
+Contrairement à la visualisation en fil de fer, il permet de remplir les surfaces des objets 3D, en utilisant des couleurs et des ombres pour donner une impression de profondeur et de réalité.
 
 ```python
-trianglerempli = Modele.TriangleRempli(self.scene.listeobjets[indcptobj].listecouleurs[i])
-self.ajouterCourbe(trianglerempli)
+# Exemple d'utilisation de TriangleRempli avec l'algorithme du peintre
+class TriangleRempli():
+    # ...
 ```
 
-Au lieu d'ajouter seulement les arêtes comme dans l'approche en fil de fer, ici, pour chaque triangle, nous ajoutons ses sommets à `TriangleRempli` pour le remplir.
+## Z-Buffer: Gérer Qui Est Devant Qui
 
-## Ajout des Couleurs
-
-Dans l'algorithme en fil de fer, nous n'avons pas eu à nous soucier des couleurs. Mais avec l'algorithme du peintre, chaque objet peut avoir une couleur spécifiée.
-
-```python
-trianglerempli = Modele.TriangleRempli(self.scene.listeobjets[indcptobj].listecouleurs[i])
-```
-
-Ici, `listecouleurs[i]` donne la couleur du i-ème triangle de l'objet, que nous passons à `TriangleRempli`.
-
-## Calcul des Points de Contrôle pour le Remplissage
-
-La manière de calculer les points de contrôle pour `TriangleRempli` est similaire à celle utilisée pour les lignes en mode fil de fer. Cependant, ici, nous avons trois points de contrôle pour chaque triangle, qui seront utilisés pour le remplissage.
+Une problématique en 3D est de déterminer quel objet doit être affiché devant un autre. Le Z-Buffer est une solution à ce problème.\
+Il s'agit d'une grille où chaque case correspond à un pixel à l'écran et contient l'information de profondeur.\
+Ainsi, on peut savoir quel objet doit apparaître devant un autre.
 
 ```python
-trianglerempli = Modele.TriangleRempli(self.scene.listeobjets[indcptobj].listecouleurs[i])
- i+=1
- self.ajouterCourbe(trianglerempli)
-
- xp0=larg//2+listeprojete[tr[0]-1][0]
- yp0=(haut+1)//2-1-listeprojete[tr[0]-1][1]
- xp1=larg//2+listeprojete[tr[1]-1][0]
- yp1=(haut+1)//2-1-listeprojete[tr[1]-1][1]
- xp2=larg//2+listeprojete[tr[2]-1][0]
- yp2=(haut+1)//2-1-listeprojete[tr[2]-1][1]
-
- trianglerempli.ajouterControle((xp0,yp0))
- trianglerempli.ajouterControle((xp1,yp1))
- trianglerempli.ajouterControle((xp2,yp2))
-```
-
-# étape 5 : Introduction du Z-Buffer et de la Facette dans la Visualisation 3D
-
-## Introduction
-
-Après avoir exploré différentes techniques pour améliorer notre visualiseur 3D, nous nous penchons maintenant sur la gestion de la profondeur des objets dans notre scène. À cette fin, nous intégrons deux composants essentiels de la graphique 3D moderne : le Z-Buffer et la classe `Facette`.
-
-## Objectifs
-
-- Comprendre le rôle du Z-Buffer et de la classe `Facette` dans la gestion de la profondeur et des détails.
-- Actualiser nos classes et fonctions pour incorporer ces nouvelles fonctionnalités.
-
-## Introduction de la classe ZBuffer
-
-Pour gérer la profondeur des objets dans la scène, la classe `ZBuffer` est cruciale. Elle initialise un tableau 2D pour stocker les valeurs de profondeur et offre des méthodes pour y accéder ou les modifier.
-
-```python
+# Exemple de la classe ZBuffer pour la gestion de la profondeur
 class ZBuffer():
-    def __init__(self) :
-        self.zbuffer=[]
-        self.dimx=0
-        self.dimy=0
-
-
-    def acces(self,i,j):
-        return self.zbuffer[i][j]
-
-    def modif(self,i,j,val):
-        self.zbuffer[i][j]=val
-```
-
-La méthode `alloc_init_zbuffer` permet l'initialisation du Z-Buffer en fonction des dimensions spécifiées :
-
-```python
-def alloc_init_zbuffer(self,larg, haut):
-    """initialisation du z-buffer"""
-    self.zbuffer=[[] for i in range(larg)]
-    self.dimx=larg
-    self.dimy=haut
-    for i in range(larg):
-        col=haut*[100000]
-        self.zbuffer[i]=col
-```
-
-Cette classe représente une avancée importante en permettant la gestion de la profondeur des objets dans notre visualiseur 3D.
-
-## Introduction de la classe Facette
-
-La classe `Facette` apporte une dimension supplémentaire à notre visualiseur. Elle compile diverses informations relatives à une facette, notamment les sommets, les normales et les couleurs.
-
-```python
-class Facette():
-
-    def __init__(self) :
-        self.sommets=[]         # les 3 sommets 3D dans le repere camera
-        self.normaleetplan=[]   #les coef A,B,C,D de l equation du plan de la facette (A,B,C est la normale a la facette
-        self.normalesaux3sommets=[]         #les 3 normales aux sommets de la facette lue ds fichier donnees [(n1x,n1y,n1z), (n2x,n2y,n2z),(n3x,n3y,n3z)]
-        self.texture_on=False               #si le polyedre associe possede une texture
-        self.coordtexturesaux3sommets=[]    #les coord de texture (X,Y) aux 3 sommets de la facette lue ds fichier donnees
-        self.couleur=[]         #la couleur intrinseque de la facette
-        self.coefs=[]           #[ka,krd,krs,ns] pour illumination : Phong
-        self.indiceobjet=-1     #indice du polyedre auquel appartient la facette
-```
-
-Grâce à cette classe, notre visualiseur offre désormais des possibilités de rendus plus complexes, incluant des effets tels que l'éclairage.
-
-## TriangleRempliZBuffer - L'évolution de la classe maître
-
-En matière de gestion de la profondeur, notre classe `TriangleRempliZBuffer` marque une avancée significative. Dérivée de `TriangleRempli`, cette classe introduit plusieurs modifications majeures pour gérer efficacement la profondeur des objets dans la scène 3D.
-
-### Redéfinition de l'Initialisation
-
-Dans la classe originale, l'initialisation se focalisait uniquement sur la couleur du triangle :
-
-```python
-def __init__(self, couleur):
-    self.couleur=couleur
-```
-
-La nouvelle version, en revanche, est nettement plus élaborée. Elle fait appel à la classe `Facette`, qui englobe diverses informations comme les sommets, les normales et les couleurs :
-
-```python
-def __init__(self):
-    self.facette=Facette()
-```
-
-Cette évolution permet de centraliser toutes les informations nécessaires pour une facette du polyèdre, améliorant ainsi la flexibilité et la richesse du rendu.
-
-### Paramètres supplémentaires dans la méthode `remplir`
-
-La méthode `remplir` a été également revue. Auparavant, elle prenait un seul argument, `dessinerPoint` :
-
-```python
-def remplir(self, dessinerPoint):
-```
-
-La version actualisée incorpore deux nouveaux paramètres : `zbuffer` et `scene`. Ces additions élargissent les possibilités de calcul de profondeur et de dessin.
-
-```python
-def remplir(self, dessinerPoint, zbuffer, scene):
-```
-
-### Gestion améliorée de la profondeur
-
-Le code de remplissage de la classe a été sensiblement modifié pour tenir compte de la profondeur. En utilisant le Z-buffer, la méthode `remplir` vérifie désormais la profondeur de chaque point avant de le dessiner :
-
-```python
-if (M3D[2]>0 and M3D[2]<zbuffer.acces(posx,posy)):
-    zbuffer.modif(posx,posy,M3D[2])
-    dessinerPoint((posx,posy),self.facette.couleur)
-```
-
-Ce contrôle supplémentaire permet une meilleure gestion des objets dans des scènes 3D complexes.
-
-### Calcul de la profondeur : une étape cruciale
-
-Le calcul de la profondeur dans la nouvelle classe utilise l'équation du plan de la facette. Il permet de déterminer la profondeur réelle de chaque point à dessiner :
-
-```python
-t = -D / (A * x + B * y + C * d)
-M3D = (t * x, t * y, t * d)
-```
-
-Ce calcul est indispensable pour plusieurs raisons :
-
-1. **Gestion de l'Occlusion**: Il aide à déterminer quel objet est devant l'autre dans une scène 3D.
-2. **Rendu précis**: Il assure que les objets sont dessinés dans le bon ordre, évitant ainsi les erreurs de rendu.
-3. **Utilisation optimale du Z-Buffer**: Le Z-buffer est mis à jour avec la profondeur correcte, ce qui est crucial pour un rendu 3D réaliste.
-
-## Nouveau type de scène avec le Z-Buffer
-
-### Nouveau type de scène avec le Z-Buffer
-
-La fonction `nouvelleSceneZBuffer` dans le fichier `Controlleur.py` est conçue pour initialiser une scène 3D complexe avec une gestion de profondeur via le Z-Buffer. Elle est essentielle pour l'intégration du Z-Buffer, des facettes et des objets 3D dans la scène.
-
-#### Importation et Initialisation de la Scène
-
-La fonction commence par importer les données nécessaires pour créer la scène.
-
-```python
-import Import_scene
-from tkinter import filedialog
-
-donnees = Import_scene.Donnees_scene("scenes/Donnees_scene.sce")
-self.scene = donnees
-d = self.scene.d  #distance de la caméra à l'écran
-```
-
-#### Sélection d'Objets 3D
-
-L'utilisateur est invité à sélectionner des fichiers `.obj` qui seront intégrés dans la scène. Ces fichiers contiennent des objets 3D.
-
-```python
-fic = "fic"
-indcptobj = -1
-while len(fic) > 0:
-    fic = filedialog.askopenfilename(title="Inserer l objet:", initialdir="../scenes", filetypes=[("Fichiers Objets", "*.obj")])
-    if len(fic) > 0:
-        indcptobj += 1
-        obj_texture = donnees.ajoute_objet(fic, indcptobj)
-        self.scene = donnees
-```
-
-#### Transformation des Objets
-
-Chaque objet est ensuite transformé pour être placé dans le repère de la caméra. Les objets sont translatés en fonction de leur type, par exemple "Diamant" ou "Cube".
-
-```python
-# ... (Code précédent)
-for som in self.scene.listeobjets[indcptobj].listesommets:
-    if self.scene.listeobjets[indcptobj].nomobj == "Diamant":
-        tx, ty, tz = 150, 150, 2.2 * d
-    elif self.scene.listeobjets[indcptobj].nomobj == "Cube":
-        tx, ty, tz = 350, 100, 2 * d
-    else:
-        tx, ty, tz = 200, 0, 1.8 * d
-    yp = som[2] + ty
-    xp = -som[1] + tx
-    zp = som[0] + tz
-    listesommetsdansreperecamera.append((xp, yp, zp))
-# ... (Code suivant)
-```
-
-#### Création de Facettes et de Triangles
-
-Le code parcourt chaque triangle dans chaque objet pour créer une instance de la classe `Facette`. Les sommets et les normales de chaque facette sont extraits et stockés.
-
-```python
-for tr in self.scene.listeobjets[indcptobj].listeindicestriangle:
-    facette = Modele.Facette()
-    # Remplissage des propriétés de la facette
     # ...
-    triangleremplizbuffer = Modele.TriangleRempliZBuffer()
-    self.ajouterCourbe(triangleremplizbuffer)
-    triangleremplizbuffer.ajouterfacette(facette)
 ```
 
-#### Projection des Points
+# Avancées: Illumination et Texturation
 
-Finalement, les points des objets sont projetés sur l'écran. Ce processus utilise la distance entre la caméra et l'écran pour convertir les coordonnées 3D en coordonnées 2D.
+## Illumination avec Phong
 
-```python
-listeprojete = []
-for som in listesommetsdansreperecamera:
-    xp = int(som[0] * d / som[2])
-    yp = int(som[1] * d / som[2])
-    listeprojete.append((xp, yp))
-```
-
-La fonction `nouvelleSceneZBuffer` est donc une pièce maîtresse du visualiseur 3D. Elle gère l'importation des objets, leur transformation dans le repère de la caméra, leur décomposition en facettes et triangles, et enfin leur projection sur l'écran. Toutes ces étapes sont cruciales pour obtenir un rendu 3D réaliste avec une gestion correcte de la profondeur grâce au Z-Buffer.
-
-Avec ces ajouts et modifications, notre visualiseur 3D est désormais capable de gérer de manière plus précise et réaliste la profondeur et les détails des objets dans une scène.
-
-# étape 6 : Modélisation de l'Illumination Locale avec Phong
-
-## Introduction
-
-Après avoir réussi à gérer la profondeur dans notre visualiseur 3D, nous nous tournons maintenant vers une caractéristique cruciale pour améliorer le réalisme : l'illumination locale. Ce étape explore l'intégration du modèle d'illumination de Phong dans notre classe `TriangleRempliZBuffer`.
-
-## Objectifs
-
-- Implémenter la fonction `calculercouleur` pour appliquer le modèle d'illumination de Phong.
-- Modifier la fonction `remplir` pour utiliser la couleur calculée.
-
-## La Fonction `calculercouleur`
-
-La nouvelle fonction membre `calculercouleur(self, M3D, scene)` a pour but de calculer la couleur d'un point \( M3D \) dans la scène 3D en utilisant le modèle d'illumination de Phong.
-
-### Calcul de la Normale
-
-On utilise une des normales aux sommets de la facette pour calculer l'illumination. La normale est ensuite normalisée.
+Le modèle d'illumination de Phong est utilisé pour simuler comment la lumière interagit avec les surfaces des objets.\
+Il combine l'illumination ambiante (lumière globale), diffuse (réflexion mat) et spéculaire (reflets brillants) pour donner un aspect plus naturel et réaliste aux objets 3D.
 
 ```python
-import vecteur3
-N = vecteur3.Vecteur(self.facette.normalesaux3sommets[0][0],self.facette.normalesaux3sommets[0][1],self.facette.normalesaux3sommets[0][2])
-N = N.normer()
-```
-
-### Calcul de l'Illumination
-
-Le modèle de Phong utilise une combinaison d'illumination ambiante, diffuse et spéculaire. Chaque composante est calculée séparément avant d'être combinée pour obtenir la couleur finale du point \( M3D \).
-
-```python
-V = vecteur3.Vecteur(-M3D[0], -M3D[1], -M3D[2])  # Caméra en O
-V = V.normer()
-R = 2 * (N * V) * N - V  # Les vecteurs sont normalisés
-
-# Calcul initial de la couleur en utilisant l'intensité ambiante
-coulR = scene.Ia * self.facette.coefs[0] * cr
-coulG = scene.Ia * self.facette.coefs[0] * cv
-coulB = scene.Ia * self.facette.coefs[0] * cb
-```
-
-### Gestion de la Saturation
-
-La fonction prend en compte la saturation, en s'assurant que les valeurs de couleur ne dépassent pas 255.
-
-```python
-if coulR > 255:
-    coulR = 255
-if coulG > 255:
-    coulG = 255
-if coulB > 255:
-    coulB = 255
-```
-
-## Mise à Jour de la Fonction `remplir`
-
-La fonction `remplir` a également été modifiée pour prendre en compte la couleur calculée par la fonction `calculercouleur`.
-
-```python
-M3D = (t * x, t * y, t * d)
-posx = zbuffer.dimx // 2 + x
-posy = (zbuffer.dimy + 1) // 2 - 1 - y
-if M3D[2] > 0 and M3D[2] < zbuffer.acces(posx, posy):
-    zbuffer.modif(posx, posy, M3D[2])
-    coul = self.calculercouleur(M3D, scene)
-    dessinerPoint((posx, posy), coul)
-```
-
-Avec ces améliorations, notre visualiseur 3D est capable non seulement de gérer la profondeur des objets dans une scène, mais aussi d'appliquer un modèle d'illumination pour un rendu plus réaliste.
-
-# étape 7: Texturation et Interpolation Avancée en Infographie 3D
-
-## Introduction
-
-Dans ce étape, nous explorons des techniques avancées pour augmenter le réalisme des objets 3D. Deux domaines seront abordés: l'interpolation des normales pour le lissage des surfaces et la texturation pour enrichir visuellement les objets sans augmenter leur complexité géométrique.
-
-## Interpolation des Normales
-
-Pour lisser la surface d'un objet 3D, on peut interpoler les normales de ses sommets. Cette technique est particulièrement utile pour des objets comme la sphère, où une normale unique pour toute une facette donnerait un rendu "plat".
-
-Dans le code, cette interpolation est effectuée dans la fonction `interpoltriangle`, qui retourne une normale interpolée \(N\) pour un point \(M3D\) à l'intérieur d'un triangle.
-
-## Texturation: Un Pas de Plus vers le Réalisme
-
-### Concept
-
-La texturation est une technique qui consiste à appliquer des images 2D, appelées textures, sur des objets 3D pour leur donner un aspect plus réaliste ou stylisé. Cela permet d'ajouter des détails complexes sans augmenter le nombre de polygones.
-
-### Comment ça Marche?
-
-Chaque point sur la surface de l'objet 3D est associé à un point dans l'image de texture grâce à des coordonnées de texture \( (u, v) \).
-
-### Interpolation des Coordonnées de Texture
-
-Supposons que vous ayez les coordonnées de texture \( T1 \), \( T2 \), et \( T3 \) pour les trois sommets \( P1 \), \( P2 \), et \( P3 \) d'un triangle. Pour interpoler les coordonnées de texture pour un point \( M3D \) à l'intérieur du triangle, le code suivant peut être utilisé:
-
-```python
-def interpoltriangle_avectexture(self, P1, P2, P3, N1, N2, N3, T1, T2, T3, M3D):
-    # Initialisation
-    N=vecteur3.Vecteur()
-    Na=vecteur3.Vecteur()
-    Nb=vecteur3.Vecteur()
-    eps = 0.0001
-    T = T1  # Valeur par défaut
-
-    # Calcul des rapports barycentriques
-    area_total = 0.5 * abs((P2[0] - P1[0]) * (P3[1] - P1[1]) - (P2[1] - P1[1]) * (P3[0] - P1[0]))
-    if area_total < eps:
-        return [N1, T1]  # Retourne la normale et la texture du premier sommet si le triangle est dégénéré
-
-    area1 = 0.5 * abs((M3D[0] - P2[0]) * (M3D[1] - P3[1]) - (M3D[1] - P2[1]) * (M3D[0] - P3[0]))
-    area2 = 0.5 * abs((M3D[0] - P3[0]) * (M3D[1] - P1[1]) - (M3D[1] - P3[1]) * (M3D[0] - P1[0]))
-    area3 = area_total - area1 - area2
-
-    # Calcul des coordonnées barycentriques
-    l1 = area1 / area_total
-    l2 = area2 / area_total
-    l3 = area3 / area_total
-
-    # Interpolation des coordonnées de texture
-    T = (l1 * T1[0] + l2 * T2[0] + l3 * T3[0], l1 * T1[1] + l2 * T2[1] + l3 * T3[1])
-
-    if N.norm() > 0.00001 :
-        N=N.normer()
-    else :
-        N=N1
-
-    return [N,T]
-```
-
-Dans ce code, nous utilisons l'interpolation barycentrique pour calculer la coordonnée de texture \( T \) pour le point \( M3D \). Les coordonnées barycentriques \( l1 \), \( l2 \), et \( l3 \) sont calculées en fonction des aires des sous-triangles formés avec \( M3D \).
-
-Ainsi, la fonction `interpoltriangle_avectexture` retourne la normale et la coordonnée de texture interpolées pour le point \( M3D \).
-
-### Utilisation de la Texture dans le Calcul des Couleurs
-
-Ensuite, ces coordonnées de texture sont utilisées pour récupérer la couleur correspondante dans l'image de texture.
-
-```python
+# Calcul de la couleur selon Phong
 def calculercouleur(self, M3D, scene):
-    if self.facette.texture_on:
-        [N, T] = self.interpoltriangle_avectexture(P1, P2, P3, N1, N2, N3, T1, T2, T3, M3D)
-        i = int((scene.listeobjets[self.facette.indiceobjet].texture_size[0][0] - 1) * T[0])
-        j = int((scene.listeobjets[self.facette.indiceobjet].texture_size[0][1] - 1) * T[1])
-        ind = j * scene.listeobjets[self.facette.indiceobjet].texture_size[0][0] + i
-        (cr, cv, cb) = (scene.listeobjets[self.facette.indiceobjet].texture_ima[ind][0],
-                        scene.listeobjets[self.facette.indiceobjet].texture_ima[ind][1],
-                        scene.listeobjets[self.facette.indiceobjet].texture_ima[ind][2])
     # ...
-
-    return (coulR, coulG, coulB)
 ```
 
-## Conclusion
+## Texturation: Ajouter des Détails
 
-L'interpolation des normales et la texturation sont des techniques puissantes pour augmenter le réalisme des rendus 3D. Alors que l'interpolation des normales permet un lissage efficace des objets, la texturation ouvre la porte à une grande variété de détails visuels. Ces techniques, souvent utilisées conjointement, permettent de créer des scènes 3D convaincantes avec une charge de calcul raisonnable.
+La texturation consiste à appliquer des images 2D sur les surfaces des objets 3D pour ajouter des détails comme des motifs ou des couleurs.\
+Cela enrichit visuellement les objets sans alourdir le calcul nécessaire pour les créer.
+
+```python
+# Application de textures sur les objets 3D
+def interpoltriangle_avectexture(self, P1, P2, P3, T1, T2, T3, M3D):
+    # ...
+```
+# Compétences Développées
+
+- 📐 **Conception 3D**
+- 🐍 **Programmation Python**
+- 🖥️ **Rendu 3D**
+- 🧠 **Résolution de problèmes**
+- 👁️ **Perception spatiale**
+- 🔄 **Adaptabilité**
+
+# Conclusion
+
+Ce projet de moteur de rendu 3D est un assemblage complexe de techniques graphiques, allant du tracé de lignes simples à la simulation d'illumination et de texturation sur des objets 3D.
+
+
+En rétrospective, bien que le projet ait atteint ses objectifs initiaux, une exploration plus poussée de l'optimisation des performances et de l'intégration de fonctionnalités interactives aurait pu enrichir davantage l'expérience utilisateur.\
+Ce travail a été un formidable terrain d'apprentissage, mettant en évidence l'importance de l'organisation du code et de la gestion efficace des ressources en Programmation graphique.
+
+
+Le projet est accessible sur <a href="https://github.com/Yanis-Riani/Fundamentals3DRender" target="_blank">GitHub</a> et je vous invite à le consulter pour une expérience plus complète.
