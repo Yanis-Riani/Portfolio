@@ -1,9 +1,9 @@
+import { Analytics } from "@components/analytics"
+import "@styles/global.css"
 import "katex/dist/katex.css"
 import { Metadata } from "next"
 import { Inter } from "next/font/google"
 import LocalFont from "next/font/local"
-import "../global.css"
-import { Analytics } from "./components/analytics"
 
 export const metadata: Metadata = {
   title: {

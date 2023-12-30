@@ -1,5 +1,5 @@
+import Particles from "@components/particles"
 import Link from "next/link"
-import Particles from "./components/particles"
 
 const navigation = [
   { name: "Projects", href: "/projects" },

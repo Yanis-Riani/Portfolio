@@ -1,27 +1,27 @@
-import { Redis } from "@upstash/redis";
-import { allProjects } from "contentlayer/generated";
-import { Eye } from "lucide-react";
-import Link from "next/link";
-import { Card } from "../components/card";
-import { Navigation } from "../components/nav";
-import { Article } from "./article";
+import { Card } from "@components/card"
+import { Navigation } from "@components/nav"
+import { Redis } from "@upstash/redis"
+import { allProjects } from "contentlayer/generated"
+import { Eye } from "lucide-react"
+import Link from "next/link"
+import { Article } from "./article"
 
-const redis = Redis.fromEnv();
+const redis = Redis.fromEnv()
 
-export const revalidate = 60;
+export const revalidate = 60
 export default async function ProjectsPage() {
   const views = (
     await redis.mget<number[]>(
       ...allProjects.map((p) => ["pageviews", "projects", p.slug].join(":"))
     )
   ).reduce((acc, v, i) => {
-    acc[allProjects[i].slug] = v ?? 0;
-    return acc;
-  }, {} as Record<string, number>);
+    acc[allProjects[i].slug] = v ?? 0
+    return acc
+  }, {} as Record<string, number>)
 
-  const featured = allProjects.find((project) => project.slug === "Domap")!;
-  const top2 = allProjects.find((project) => project.slug === "Keploid")!;
-  const top3 = allProjects.find((project) => project.slug === "Moteur3D")!;
+  const featured = allProjects.find((project) => project.slug === "Domap")!
+  const top2 = allProjects.find((project) => project.slug === "Keploid")!
+  const top3 = allProjects.find((project) => project.slug === "Moteur3D")!
   const sorted = allProjects
     .filter((p) => p.published)
     .filter(
@@ -34,7 +34,7 @@ export default async function ProjectsPage() {
       (a, b) =>
         new Date(b.date ?? Number.POSITIVE_INFINITY).getTime() -
         new Date(a.date ?? Number.POSITIVE_INFINITY).getTime()
-    );
+    )
 
   return (
     <div className="relative pb-16">
@@ -77,8 +77,7 @@ export default async function ProjectsPage() {
 
                 <h2
                   id="featured-post"
-                  className="mt-4 text-3xl font-bold text-zinc-100 group-hover:text-white sm:text-4xl font-display"
-                >
+                  className="mt-4 text-3xl font-bold text-zinc-100 group-hover:text-white sm:text-4xl font-display">
                   {featured.title}
                 </h2>
                 <p className="mt-4 leading-8 duration-150 text-zinc-400 group-hover:text-zinc-300">
@@ -146,5 +145,5 @@ export default async function ProjectsPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }
