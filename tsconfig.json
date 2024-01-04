@@ -38,10 +38,13 @@
         "styles/*"
       ],
       "@public/*": [
-        "public/*"
+        "../public/*"
       ],
       "@content/*": [
         "content/*"
+      ],
+      "@iconify/*": [
+        "_iconify/*"
       ],
       "contentlayer/generated": [
         "../.contentlayer/generated"
