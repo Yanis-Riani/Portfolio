@@ -26,7 +26,9 @@ L'ambition de ce projet était double: d'une part, apprendre et comprendre les b
 ## Outils & Technologies Utilisés
 
 <TechStack technologies={[
-  { logoSrc: '/Icons/python.svg', name: 'Python' },
+  { logo: 'logos-python', name: 'Python', description: "Langage de programmation principal utilisé pour le développement du moteur de rendu 3D." },
+  { logo: 'custom-tkinter', name: 'Tkinter', description: "Bibliothèque utilisé pour créer l'interface graphique de l'application et gérer les interactions utilisateur." },
+  { logo: 'custom-pil', name: 'PIL', description: "Bibliothèque pour le traitement d'images, utilisée pour manipuler et afficher les images et textures dans le moteur de rendu." },
 ]} />
 
 # Fondations: Tracé Algorithmique
@@ -39,8 +41,23 @@ Imaginez dessiner un point à chaque pas jusqu'à former une ligne complète - c
 
 ```python
 # Exemple simplifié de tracé de ligne horizontale
-class Horizontale(Courbe):
-    # ...
+class Horizontale(Courbe):     
+    def ajouterControle(self, point):
+        """ Ajoute un point de controle a l'horizontale.
+        Ne fait rien si les 2 points existent deja. """
+        if len(self.controles) < 2:
+            Courbe.ajouterControle(self, point)
+
+    def dessinerPoints(self, dessinerPoint):
+        """ Dessine la courbe. Redefinit la methode de la classe mere. """
+        if len(self.controles) == 2 :
+            x1 = self.controles[0][0]
+            x2 = self.controles[1][0]
+            y = self.controles[0][1]
+            xMin = min(x1,x2)
+            xMax = max(x1, x2)
+            for x in range(xMin, xMax):
+                dessinerPoint((x, y),(0,0,0))
 ```
 
 ## Architecture MVC pour l'Organisation
@@ -97,7 +114,26 @@ Ainsi, on peut savoir quel objet doit apparaître devant un autre.
 ```python
 # Exemple de la classe ZBuffer pour la gestion de la profondeur
 class ZBuffer():
-    # ...
+    def __init__(self) :
+        self.zbuffer=[]
+        self.dimx=0
+        self.dimy=0
+         
+         
+    def alloc_init_zbuffer(self,larg, haut):
+        """initialisation du z-buffer"""
+        self.zbuffer=[[] for i in range(larg)]
+        self.dimx=larg
+        self.dimy=haut
+        for i in range(larg):
+            col=haut*[100000]
+            self.zbuffer[i]=col
+            
+    def acces(self,i,j):
+        return self.zbuffer[i][j]
+    
+    def modif(self,i,j,val):
+        self.zbuffer[i][j]=val
 ```
 
 # Avancées: Illumination et Texturation
