@@ -1,0 +1,29 @@
+# syntax=docker/dockerfile:1
+
+FROM node:18-alpine as build
+WORKDIR /user/src/app/
+
+COPY package*.json      /user/src/app/
+COPY tsconfig*.json     /user/src/app/
+COPY src                /user/src/app/
+COPY public             /user/src/app/
+COPY .env               /user/src/app/
+COPY *.config.js        /user/src/app/
+COPY *.config.mjs        /user/src/app/
+COPY mdx-components.tsx /user/src/app/
+
+RUN npm ci
+RUN npm run build:icons
+RUN npm run build
+
+FROM node:18-alpine
+WORKDIR /user/src/app/
+
+RUN apk add dumb-init
+ENV NODE_ENV production
+
+USER node
+COPY --chown=node:node --from=build /user/src/app/ /user/src/app/
+
+EXPOSE 3000
+CMD ["dumb-init", "npm", "run", "start:prod"]
