@@ -38,3 +38,6 @@ next-env.d.ts
 
 .contentlayer
 icons-bundle.js
+
+# ide
+.vscode
