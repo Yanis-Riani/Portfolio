@@ -42,6 +42,8 @@ module.exports = {
         title: "title 3s ease-out forwards",
         "fade-left": "fade-left 3s ease-in-out forwards",
         "fade-right": "fade-right 3s ease-in-out forwards",
+        slowbreath: "breath 4s ease-in-out infinite",
+        breath: "breath 3s ease-in-out infinite",
       },
       keyframes: {
         "fade-in": {
@@ -101,6 +103,14 @@ module.exports = {
             "line-height": "100%",
             opacity: "100%",
           },
+        },
+        breath: {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(0.95)" },
+        },
+        slowbreath: {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(0.95)" },
         },
       },
     },

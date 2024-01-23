@@ -43,6 +43,9 @@
       "@content/*": [
         "content/*"
       ],
+      "@localtypes/*": [
+        "types/*"
+      ],
       "@iconify/*": [
         "_iconify/*"
       ],
