@@ -198,8 +198,8 @@ const ResumePage: React.FC = () => {
               <Image
                 src={"/resume/ButInfoG.avif"}
                 alt={"Image représentative du BUT Informatique Graphique"}
-                width={300}
-                height={170}
+                width={380}
+                height={270}
                 className="rounded-md max-w-xs md:max-w-none mx-auto md:mx-0"
               />
               <div className="flex flex-col text-left ml-4 gap-2">
