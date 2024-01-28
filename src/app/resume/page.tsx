@@ -148,15 +148,15 @@ const ResumePage: React.FC = () => {
   return (
     <div>
       <Navigation />
-      <div className="flex flex-col px-6 pt-16 mx-auto space-y-8 max-w-7xl lg:px-8 md:space-y-16 md:pt-24 lg:pt-32 overflow-hidden bg-gradient-to-tl from-black/20 via-zinc-600/20 to-black/20">
+      <div className="flex flex-col px-6 pt-16 mx-auto space-y-8 md:max-w-7xl lg:px-8 md:space-y-16 md:pt-24 lg:pt-32 overflow-hidden bg-gradient-to-tl from-black/20 via-zinc-600/20 to-black/20">
         <Particles
           className="absolute inset-0 -z-10 animate-fade-in h-auto"
           quantity={200}
         />
-        <div className="flex flex-col items-center justify-center space-y-4 text-center max-w-5xl mx-auto">
+        <div className="flex flex-col items-center justify-center space-y-4 text-center md:max-w-5xl md:mx-auto">
           <div>
             <h1
-              className="z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text"
+              className="z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display text-6xl md:text-9xl whitespace-nowrap bg-clip-text"
               style={{ textRendering: "optimizeLegibility" }}>
               Yanis Riani
             </h1>
@@ -170,42 +170,44 @@ const ResumePage: React.FC = () => {
             </a>
           </section>
           <section>
-            <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl mb-14 mt-4">
+            <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl md:mb-14 mb-6 mt-4">
               Parcours professionnel
             </h1>
             <Timeline jobs={jobsData} />
           </section>
           <section className="flex flex-col gap-4">
-            <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl mb-10">
+            <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl md:mb-14 mb-6">
               Formations
             </h1>
-            <h2 className="text-2xl font-bold tracking-tight text-zinc-200 sm:text-4xl flex flex-row flex-nowrap justify-center gap-4 mb-4">
+            <h2 className="text-xl font-bold tracking-tight text-zinc-200 sm:text-4xl flex flex-row flex-wrap sm:flex-nowrap justify-center gap-4 mb-4">
               <span>
                 <Image
                   src={"/resume/LogoButInfoG.webp"}
                   alt={"Logo du BUT Informatique Graphique"}
                   width={32}
                   height={32}
+                  className="max-w-6 sm:max-w-none"
                 />
               </span>
               BUT Informatique Graphique
-              <span className="text-xl text-zinc-300 align-top">
+              <span className="text-lg sm:text-xl text-zinc-300 align-top">
                 2021 - 2024
               </span>
             </h2>
-            <div className="flex flex-row max-w-4xl">
+            <div className="flex flex-col md:flex-row md:max-w-4xl gap-10">
               <Image
                 src={"/resume/ButInfoG.avif"}
                 alt={"Image représentative du BUT Informatique Graphique"}
-                width={400}
+                width={300}
                 height={170}
+                className="rounded-md max-w-xs md:max-w-none mx-auto md:mx-0"
               />
               <div className="flex flex-col text-left ml-4 gap-2">
-                <h3 className="text-xl font-bold text-zinc-200 sm:text-2xl">
+                <h3 className="text-xl font-bold text-zinc-200 sm:text-2xl text-center md:text-left">
                   IUT du Puy-en-Velay, <br />
                   Université Clermont-Auvergne
                 </h3>
-                <p className="text-md italic tracking-tight text-zinc-300 mb-4">
+                <p className="text-md italic tracking-tight text-zinc-300 mb-4 text-center md:text-left">
                   📍Le Puy-en-Velay, France
                 </p>
                 <div className="text-lg tracking-tight text-zinc-300">
@@ -231,7 +233,7 @@ const ResumePage: React.FC = () => {
             </div>
           </section>
           <section>
-            <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl mb-14 mt-14">
+            <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl md:mb-14 mb-6 mt-14">
               Compétences
             </h1>
             <div>
@@ -256,7 +258,7 @@ const ResumePage: React.FC = () => {
               <h2 className="text-2xl font-bold tracking-tight text-zinc-200 sm:text-4xl mb-10">
                 Compétences supplémentaires
               </h2>
-              <div className="flex justify-center mb-36 gap-10">
+              <div className="flex flex-wrap justify-center mb-36 gap-10">
                 <div>
                   <h3 className="text-2xl font-bold tracking-tight text-zinc-200 mb-4">
                     Compétences Transversales

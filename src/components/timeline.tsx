@@ -15,17 +15,17 @@ export const Timeline: FunctionComponent<TimelineProps> = ({ jobs }) => {
       .map((item, index) => item && <li key={index}>{item.trim()}</li>) // Créer des éléments de liste pour chaque point
   }
   return (
-    <div className={`flex flex-col overflow-x-auto gap-14`}>
+    <div className={`flex flex-col overflow-x-auto md:gap-14`}>
       {jobs.map((job, index) => (
         <div
           key={index}
           className={`flex ${
-            index % 2 === 0 ? "flex-row" : "flex-row-reverse"
-          } items-center my-8 relative h-60`}>
+            index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+          } flex-col items-center mb-8 relative md:h-60 gap-4 md:gap-0`}>
           {/* Ligne de connexion pour chaque point de la timeline */}
           {index > 0 && (
             <div
-              className={`absolute w-0.5 bg-zinc-300 ${
+              className={`hidden md:block absolute w-0.5 bg-zinc-300 ${
                 index % 2 === 0 ? "left-1/2" : "right-1/2"
               }`}
               style={{
@@ -37,15 +37,15 @@ export const Timeline: FunctionComponent<TimelineProps> = ({ jobs }) => {
           )}
           <div
             className={`flex-1 px-4 ${
-              index % 2 === 0 ? "text-right" : "text-left"
-            } max-w-xl`}>
+              index % 2 === 0 ? "md:text-right" : "md:text-left"
+            } md:max-w-xl`}>
             <h3 className="text-xl font-bold text-zinc-200 mb-2">
               {job.title}
             </h3>
             <p className="text-sm italic text-zinc-300 mb-4">{job.duration}</p>
             <div
               className={`text-lm text-zinc-200 grid ${
-                index % 2 === 0 ? "text-left w-96 ml-auto" : ""
+                index % 2 === 0 ? "text-left md:w-96 ml-auto" : "text-left"
               }`}>
               {job.description.includes("- ") ? (
                 <ul className="list-disc list-inside space-y-2">
@@ -57,7 +57,7 @@ export const Timeline: FunctionComponent<TimelineProps> = ({ jobs }) => {
             </div>
           </div>
           <div
-            className={`relative w-14 h-14 rounded-full ${
+            className={`hidden md:flex relative w-14 h-14 rounded-full ${
               job.active ? "bg-zinc-200" : "bg-zinc-300"
             } flex items-center justify-center mx-6 z-10`}>
             <div
@@ -81,9 +81,8 @@ export const Timeline: FunctionComponent<TimelineProps> = ({ jobs }) => {
                 alt={job.imageAlt}
                 width={400}
                 height={170}
-                className={`rounded-md ${
-                  index % 2 === 0 ? "mr-auto" : "ml-auto"
-                } max-w-md`}
+                className={`rounded-md mx-auto md:mx-0 md:max-w-md`}
+                layout="intrinsic" // Ajouter layout="intrinsic" pour garder les proportions
               />
             )}
           </div>
