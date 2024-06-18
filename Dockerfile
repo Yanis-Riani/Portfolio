@@ -22,6 +22,12 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+ARG UPSTASH_REDIS_REST_URL=xxx
+ARG UPSTASH_REDIS_REST_TOKEN=xxx
+
+ENV UPSTASH_REDIS_REST_URL=$UPSTASH_REDIS_REST_URL
+ENV UPSTASH_REDIS_REST_TOKEN=$UPSTASH_REDIS_REST_TOKEN
+
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
@@ -44,12 +50,6 @@ RUN \
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
-
-ARG UPSTASH_REDIS_REST_URL=xxx
-ARG UPSTASH_REDIS_REST_TOKEN=xxx
-
-ENV UPSTASH_REDIS_REST_URL=$UPSTASH_REDIS_REST_URL
-ENV UPSTASH_REDIS_REST_TOKEN=$UPSTASH_REDIS_REST_TOKEN
 
 ENV NODE_ENV production
 # Uncomment the following line in case you want to disable telemetry during runtime.
