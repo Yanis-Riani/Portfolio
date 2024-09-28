@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useMDXComponent } from "next-contentlayer/hooks"
+import { useMDXComponent } from "next-contentlayer2/hooks"
 import dynamic from "next/dynamic"
 import Image from "next/image"
 import Link from "next/link"
