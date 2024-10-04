@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build and publish the image
         run: |
-          docker login --username do-map --password ${{ secrets.GH_PAT }} ghcr.io
+          docker login --username yanis-riani --password ${{ secrets.GH_PAT }} ghcr.io
           docker build --build-arg UPSTASH_REDIS_REST_URL=${{ secrets.UPSTASH_URL }} --build-arg UPSTASH_REDIS_REST_TOKEN=${{ secrets.UPSTASH_TOKEN }} ./ -t ghcr.io/yanis-riani/porfolio:lts
           docker push ghcr.io/yanis-riani/porfolio:lts
   deploy:
@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: login to ghcr.io
         run: |
-          echo ${{ secrets.GH_PAT }} | docker login --username do-map --password-stdin ghcr.io
+          echo ${{ secrets.GH_PAT }} | docker login --username yanis-riani --password-stdin ghcr.io
       - name: install ssh keys
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
