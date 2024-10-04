@@ -41,20 +41,12 @@ export default function Home() {
           développeur Web FullStack pour{" "}
           <Link
             target="_blank"
-            href="https://domap.fr/"
+            href="https://do-map.com/"
             className="underline duration-500 hover:text-zinc-300">
             Domap
           </Link>
           <br />
-          et développe des jeux vidéo durant mon temps libre. Parallèlement, je
-          suis en formation en{" "}
-          <Link
-            target="_blank"
-            href="https://ig.iut-clermont.fr/formations/le-but-informatique-graphique/"
-            className="underline duration-500 hover:text-zinc-300">
-            Informatique graphique aux Puy-en-Velay
-          </Link>
-          .
+          et j'apprends les technologies Web3 durant mon temps libre.
         </h2>
       </div>
     </div>
