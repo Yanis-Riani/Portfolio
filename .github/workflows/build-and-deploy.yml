@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Manual Build and Deploy
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ jobs:
       - name: Build and publish the image
         run: |
           docker login --username do-map --password ${{ secrets.GH_PAT }} ghcr.io
-          docker build ./ -t ghcr.io/domap-fr/porfolio:lts
+          docker build ./ -t ghcr.io/domap-fr/porfolio:lts UPSTASH_REDIS_REST_URL=${{ secrets.UPSTASH_URL }} --build-arg UPSTASH_REDIS_REST_TOKEN=${{ secrets.UPSTASH_TOKEN }}
           docker push ghcr.io/domap-fr/porfolio:lts
   deploy:
     runs-on: ubuntu-latest
@@ -28,8 +28,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: connect and pull
         run: |
-          sudo apt-get install sshpass
-          sshpass -p "${{ secrets.SSH_PASS }}" ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ${{ secrets.WORK_DIR }} && docker-compose pull && docker-compose up -d && exit'
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ${{ secrets.WORK_DIR }} && docker compose pull && docker compose up -d && exit'
       - name: cleanup
         run: |
           rm ~/.ssh/id_rsa

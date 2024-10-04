@@ -1,4 +1,4 @@
-import type { Project } from "@contentlayer2/generated"
+import type { Project } from "@contentlayer/generated"
 import { Eye } from "lucide-react"
 import Link from "next/link"
 
