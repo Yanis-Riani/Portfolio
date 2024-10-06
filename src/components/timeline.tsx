@@ -1,7 +1,11 @@
 import { Job } from "@localtypes/job"
+import dayjs from "dayjs"
+import "dayjs/locale/fr"
+import relativeTime from "dayjs/plugin/relativeTime"
 import Image from "next/image"
 import { FunctionComponent } from "react"
-
+dayjs.extend(relativeTime)
+dayjs.locale("fr")
 type TimelineProps = {
   jobs: Job[]
   activeColor?: string
@@ -13,6 +17,24 @@ export const Timeline: FunctionComponent<TimelineProps> = ({ jobs }) => {
     return description
       .split("- ") // Diviser la chaîne de description en points de puce
       .map((item, index) => item && <li key={index}>{item.trim()}</li>) // Créer des éléments de liste pour chaque point
+  }
+  // Fonction pour calculer la durée en années et mois
+  const calculateDuration = (startDate: string, endDate: any) => {
+    const start = dayjs(startDate)
+    const end = dayjs(endDate).add(1, "month")
+
+    const years = end.diff(start, "year")
+    const months = end.diff(start.add(years, "year"), "month")
+
+    let result = ""
+    if (years > 0) result += `${years} an${years > 1 ? "s" : ""} `
+    if (months > 0) result += `${months} mois`
+
+    return result.trim()
+  }
+
+  const capitalizeFirstLetter = (string: string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1)
   }
   return (
     <div className={`flex flex-col overflow-x-auto md:gap-14`}>
@@ -30,7 +52,7 @@ export const Timeline: FunctionComponent<TimelineProps> = ({ jobs }) => {
               }`}
               style={{
                 height: "100%", // La hauteur s'ajuste en fonction du contenu
-                transform: "translateY(-75%)",
+                transform: "translateY(-69%)",
                 borderRadius: "0.5rem",
               }}
             />
@@ -42,7 +64,20 @@ export const Timeline: FunctionComponent<TimelineProps> = ({ jobs }) => {
             <h3 className="text-xl font-bold text-zinc-200 mb-2">
               {job.title}
             </h3>
-            <p className="text-sm italic text-zinc-300 mb-4">{job.duration}</p>
+            <p className="text-sm italic text-zinc-300 mb-4">
+              {job.active
+                ? `${capitalizeFirstLetter(
+                    dayjs(job.startDate).format("MMMM YYYY")
+                  )} - Aujourd'hui . ${calculateDuration(
+                    job.startDate,
+                    undefined
+                  )}`
+                : `${capitalizeFirstLetter(
+                    dayjs(job.startDate).format("MMMM YYYY")
+                  )} - ${capitalizeFirstLetter(
+                    dayjs(job.endDate).format("MMMM YYYY")
+                  )} . ${calculateDuration(job.startDate, job.endDate)}`}
+            </p>
             <div
               className={`text-lm text-zinc-200 grid ${
                 index % 2 === 0 ? "text-left md:w-96 ml-auto" : "text-left"
@@ -81,8 +116,7 @@ export const Timeline: FunctionComponent<TimelineProps> = ({ jobs }) => {
                 alt={job.imageAlt}
                 width={400}
                 height={170}
-                className={`rounded-md mx-auto md:mx-0 md:max-w-md`}
-                layout="intrinsic" // Ajouter layout="intrinsic" pour garder les proportions
+                className={`rounded-md mx-auto md:mx-0 md:max-w-md object-cover`}
               />
             )}
           </div>

@@ -1,6 +1,7 @@
 export type Job = {
   title: string
-  duration: string
+  startDate: string
+  endDate?: string
   description: string
   imageSrc: string
   imageAlt: string

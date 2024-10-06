@@ -22,7 +22,7 @@ export const SkillList: React.FC<SkillProps> = ({ technologies }) => {
             className="text-center cursor-pointer
                       border rounded-md shadow-sm
                       flex flex-col items-center p-4
-                      w-28 h-36 bg-zinc-100/20 border-zinc-200/30 hover:bg-zinc-300/20 hover:border-zinc-400/50 hover:transition-colors duration-[1500ms] ease-out top-0
+                      w-28 h-36 border-zinc-600 hover:bg-zinc-300/20 hover:border-zinc-400/50 hover:transition-colors duration-[1500ms] ease-out top-0
             "
             aria-label={tech.alt || tech.name}>
             <div>
@@ -39,7 +39,9 @@ export const SkillList: React.FC<SkillProps> = ({ technologies }) => {
                 className="mx-auto"
               />
             </div>
-            <p className="font-medium">{tech.name}</p>
+            <p className="font-medium text-zinc-200 group-hover:text-zinc-100">
+              {tech.name}
+            </p>
           </div>
         ))}
       </div>

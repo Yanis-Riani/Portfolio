@@ -7,25 +7,13 @@ import React from "react"
 
 const jobsData = [
   {
-    title: "DOMAP - Développeur Full Stack (stage)",
-    duration: "Mai 2023 - Août 2023",
+    title: "DOMAP - Développeur Web Full Stack (stage, alternance et CDI)",
+    startDate: "2023-05",
     description:
-      "- Modernisation de l'interface utilisateur. - Renforcement de la sécurité du site.- Restructuration et optimisation du code source.",
+      "Renfonte du Front-end avec Vue.js et Vuetify.- Internationalization (i18n) du site en français, anglais et en allemand. - Mise en place d'une pipeline de production.",
     imageSrc: "/resume/DomapRep.avif",
     imageAlt:
-      "Image représentative de l'emploi chez DOMAP en tant que stagiaire",
-    logoSrc: "/resume/Domap.svg",
-    logoAlt: "Logo de DOMAP",
-    active: false,
-  },
-  {
-    title: "DOMAP - Développeur Full Stack (alternance)",
-    duration: "Septembre 2023 - Aujourd'hui",
-    description:
-      "Intégration de la template et adaptation de l'authentification.- Optimisation des requêtes API pour les données des États-Unis. - Amélioration continue et maintenance de la version de production.",
-    imageSrc: "/resume/DomapRep.avif",
-    imageAlt:
-      "Image représentative de l'emploi chez DOMAP en tant qu'alternant",
+      "Image représentative de l'emploi chez DOMAP en tant que Développeur Web Full Stack",
     logoSrc: "/resume/Domap.svg",
     logoAlt: "Logo de DOMAP",
     active: true,
@@ -148,38 +136,41 @@ const ResumePage: React.FC = () => {
   return (
     <div>
       <Navigation />
-      <div className="flex flex-col px-6 pt-16 mx-auto space-y-8 md:max-w-7xl lg:px-8 md:space-y-16 md:pt-24 lg:pt-32 overflow-hidden bg-gradient-to-tl from-black/20 via-zinc-600/20 to-black/20">
+      <div className="flex flex-col px-6 pt-16 mx-auto space-y-8 lg:px-8 md:space-y-16 md:pt-24 lg:pt-32 overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
         <Particles
           className="absolute inset-0 -z-10 animate-fade-in h-auto"
           quantity={200}
         />
         <div className="flex flex-col items-center justify-center space-y-4 text-center md:max-w-5xl md:mx-auto">
-          <div>
+          <div className="h-32">
             <h1
-              className="z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display text-6xl md:text-9xl whitespace-nowrap bg-clip-text"
+              className="z-10 text-4xl text-transparent duration-500 bg-white cursor-default text-edge-outline animate-title font-display text-6xl md:text-9xl whitespace-nowrap bg-clip-text"
               style={{ textRendering: "optimizeLegibility" }}>
               Yanis Riani
             </h1>
+            <span className="sr-only">Yanis Riani</span>
           </div>
           <section className="flex flex-col">
             <a
               href="/resume/Resume.pdf"
               download
-              className="px-6 py-3 text-zinc-200 rounded-md border-2 border-zinc-200 hover:bg-zinc-300/30 hover:transition-colors duration-[1000ms] ease-out">
+              title="Télécharger le CV de Yanis Riani"
+              aria-label="Télécharger mon CV en PDF"
+              className="px-6 py-3 text-zinc-200 rounded-md border-2 border-zinc-400 hover:bg-zinc-300/20 hover:border-zinc-400/50 hover:transition-colors duration-[1500ms] ease-out">
               Télécharger mon CV
             </a>
           </section>
           <section>
-            <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl md:mb-14 mb-6 mt-4">
+            <h2 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl md:mb-14 mb-6 mt-4">
               Parcours professionnel
-            </h1>
+            </h2>
             <Timeline jobs={jobsData} />
           </section>
           <section className="flex flex-col gap-4">
-            <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl md:mb-14 mb-6">
+            <h2 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl md:mb-14 mb-6">
               Formations
-            </h1>
-            <h2 className="text-xl font-bold tracking-tight text-zinc-200 sm:text-4xl flex flex-row flex-wrap sm:flex-nowrap justify-center gap-4 mb-4">
+            </h2>
+            <h3 className="text-xl font-bold tracking-tight text-zinc-200 sm:text-4xl flex flex-row flex-wrap sm:flex-nowrap justify-center gap-4 mb-4">
               <span>
                 <Image
                   src={"/resume/LogoButInfoG.webp"}
@@ -193,20 +184,20 @@ const ResumePage: React.FC = () => {
               <span className="text-lg sm:text-xl text-zinc-300 align-top">
                 2021 - 2024
               </span>
-            </h2>
+            </h3>
             <div className="flex flex-col md:flex-row md:max-w-4xl gap-10">
               <Image
-                src={"/resume/ButInfoG.avif"}
-                alt={"Image représentative du BUT Informatique Graphique"}
-                width={380}
-                height={270}
-                className="rounded-md max-w-xs md:max-w-none mx-auto md:mx-0"
+                src={"/resume/lpv.avif"}
+                alt={"Image représentative de la ville du Puy-en-Velay"}
+                width={360}
+                height={360}
+                className="rounded-md max-w-xs md:max-w-none mx-auto md:mx-0 object-cover"
               />
               <div className="flex flex-col text-left ml-4 gap-2">
-                <h3 className="text-xl font-bold text-zinc-200 sm:text-2xl text-center md:text-left">
+                <h4 className="text-xl font-bold text-zinc-200 sm:text-2xl text-center md:text-left">
                   IUT du Puy-en-Velay, <br />
                   Université Clermont-Auvergne
-                </h3>
+                </h4>
                 <p className="text-md italic tracking-tight text-zinc-300 mb-4 text-center md:text-left">
                   📍Le Puy-en-Velay, France
                 </p>
@@ -233,36 +224,36 @@ const ResumePage: React.FC = () => {
             </div>
           </section>
           <section>
-            <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl md:mb-14 mb-6 mt-14">
+            <h2 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl md:mb-14 mb-6 mt-14">
               Compétences
-            </h1>
+            </h2>
             <div>
-              <h2 className="text-2xl font-bold tracking-tight text-zinc-200 sm:text-4xl mb-4">
+              <h3 className="text-2xl font-bold tracking-tight text-zinc-200 sm:text-4xl mb-4">
                 Dévelopement Web
-              </h2>
+              </h3>
               <SkillList technologies={webSkills} />
             </div>
             <div>
-              <h2 className="text-2xl font-bold tracking-tight text-zinc-200 sm:text-4xl mb-4">
+              <h3 className="text-2xl font-bold tracking-tight text-zinc-200 sm:text-4xl mb-4">
                 Dévelopement Logiciels
-              </h2>
+              </h3>
               <SkillList technologies={softwareSkills} />
             </div>
             <div>
-              <h2 className="text-2xl font-bold tracking-tight text-zinc-200 sm:text-4xl mb-4">
+              <h3 className="text-2xl font-bold tracking-tight text-zinc-200 sm:text-4xl mb-4">
                 3D et Jeux-Vidéos
-              </h2>
+              </h3>
               <SkillList technologies={InfoGSkills} />
             </div>
             <div className="flex flex-col">
-              <h2 className="text-2xl font-bold tracking-tight text-zinc-200 sm:text-4xl mb-10">
+              <h3 className="text-2xl font-bold tracking-tight text-zinc-200 sm:text-4xl mb-10">
                 Compétences supplémentaires
-              </h2>
+              </h3>
               <div className="flex flex-wrap justify-center mb-36 gap-10">
                 <div>
-                  <h3 className="text-2xl font-bold tracking-tight text-zinc-200 mb-4">
+                  <h4 className="text-2xl font-bold tracking-tight text-zinc-200 mb-4">
                     Compétences Transversales
-                  </h3>
+                  </h4>
                   <ul className="text-xl text-left list-disc list-inside space-y-2 tracking-tight text-zinc-300">
                     <li>✉️ Communication efficace</li>
                     <li>⏰ Gestion du temps et des priorités</li>
@@ -273,9 +264,9 @@ const ResumePage: React.FC = () => {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold tracking-tight text-zinc-200 mb-4">
+                  <h4 className="text-2xl font-bold tracking-tight text-zinc-200 mb-4">
                     Compétences Générales
-                  </h3>
+                  </h4>
                   <ul className="text-xl text-left list-disc list-inside space-y-2 tracking-tight text-zinc-300">
                     <li>🤔 Esprit critique et analytique</li>
                     <li>⚔️ Résolution de conflits</li>
